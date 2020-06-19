@@ -18,13 +18,13 @@ public class MoodAnalyser {
         this.message = message;
     }
     /*function to analyse mood*/
-    public String analyseMood() {
+    public String analyseMood() throws MoodAnalysisException {
         try {
             if (message.contains("sad"))
                 return "SAD";
-        } catch (NullPointerException e) {
             return "HAPPY";
+        } catch (NullPointerException e) {
+            throw new MoodAnalysisException("MoodAnalysisException");
         }
-        return null;
     }
 }
