@@ -17,14 +17,16 @@ public class MoodAnalyser {
     public MoodAnalyser(String message) {
         this.message = message;
     }
-    /*function to analyse mood*/
-    public String analyseMood() {
+    /*function to analyse mood and handle exception*/
+    public String analyseMood() throws MoodAnalysisException {
         try {
+            if (message.length()==0)
+                throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_EMPTY,"ENTERED_EMPTY");
             if (message.contains("sad"))
                 return "SAD";
-        } catch (NullPointerException e) {
             return "HAPPY";
+        } catch (NullPointerException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_NULL, "ENTERED_NULL");
         }
-        return null;
     }
 }
