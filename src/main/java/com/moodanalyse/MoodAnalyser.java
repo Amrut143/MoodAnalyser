@@ -5,12 +5,20 @@ package com.moodanalyse;
  * Purpose : This class is to analyse the mood
  */
 public class MoodAnalyser {
+    private String message;
+
+    /*Default constructor*/
+    public MoodAnalyser() {
+    }
     /**
      *
      * @param message
-     * @return : String
      */
-    public String analyseMood(String message) {
+    public MoodAnalyser(String message) {
+        this.message = message;
+    }
+    /*function to analyse mood*/
+    public String analyseMood() {
         if(message.contains("sad"))
             return "SAD";
         else
