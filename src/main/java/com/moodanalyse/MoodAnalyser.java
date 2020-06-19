@@ -19,9 +19,12 @@ public class MoodAnalyser {
     }
     /*function to analyse mood*/
     public String analyseMood() {
-        if(message.contains("sad"))
-            return "SAD";
-        else
+        try {
+            if (message.contains("sad"))
+                return "SAD";
+        } catch (NullPointerException e) {
             return "HAPPY";
+        }
+        return null;
     }
 }
