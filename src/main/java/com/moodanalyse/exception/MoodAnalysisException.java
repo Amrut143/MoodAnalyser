@@ -1,4 +1,4 @@
-package com.moodanalyse;
+package com.moodanalyse.exception;
 
 /**
  * @author : Amrut

@@ -1,4 +1,6 @@
-package com.moodanalyse;
+package com.moodanalyse.service;
+
+import com.moodanalyse.exception.MoodAnalysisException;
 
 /**
  * @Author : Amrut

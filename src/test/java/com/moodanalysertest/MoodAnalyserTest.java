@@ -1,7 +1,7 @@
 package com.moodanalysertest;
 
-import com.moodanalyse.MoodAnalyser;
-import com.moodanalyse.MoodAnalysisException;
+import com.moodanalyse.service.MoodAnalyser;
+import com.moodanalyse.exception.MoodAnalysisException;
 import org.junit.Assert;
 import org.junit.Test;
 
