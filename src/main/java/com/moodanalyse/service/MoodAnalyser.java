@@ -19,11 +19,6 @@ public class MoodAnalyser {
     public MoodAnalyser(String message) {
         this.message = message;
     }
-
-    public String analyseMood(String message) throws MoodAnalysisException{
-        this.message = message;
-        return analyseMood();
-    }
     /*function to analyse mood and handle exception*/
     public String analyseMood() throws MoodAnalysisException {
         try {
@@ -36,9 +31,15 @@ public class MoodAnalyser {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_NULL, "ENTERED_NULL");
         }
     }
-
+    @Override
     public boolean equals(Object another){
         if (this.message.equals(((MoodAnalyser)another).message))
+            return true;
+        return false;
+    }
+
+    public boolean equalsMethod_ForObject(Object another){
+        if (this == another)
             return true;
         return false;
     }
