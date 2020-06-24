@@ -78,15 +78,16 @@ public class MoodAnalyserTest {
     public void givenMoodAnalyzerClass_IsEquals_ShouldReturnMoodAnalyzerObject() {
         MoodAnalyser moodAnalyser = null;
         try {
-            moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyser");
-            Assert.assertEquals(new MoodAnalyser(),moodAnalyser);
+            moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("I am in happy mood");
+            boolean result = moodAnalyser.equals(new MoodAnalyser("I m in Happy Mood."));
+            Assert.assertTrue(result);
         } catch (MoodAnalysisException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void whenMood_ClassIsNotAvailable_ShouldReturn_CustomException_WithNoSuchClass() {
+    public void givenMoodAnalyserClass_WhenNotProper_ShouldReturn_CustomException_WithNoSuchClass() {
         try {
             MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyzer");
         } catch (MoodAnalysisException e) {
@@ -95,7 +96,7 @@ public class MoodAnalyserTest {
     }
 
     @Test
-    public void whenMood_ConstructorIsNotValid_ShouldReturn_CustomException_WithNoSuchMethod() {
+    public void whenMood_ConstructorIsNotProper_ShouldReturn_CustomException_WithNoSuchMethod() {
         try {
             MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject();
         } catch (MoodAnalysisException e) {
