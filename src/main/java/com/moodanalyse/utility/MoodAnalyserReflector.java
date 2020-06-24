@@ -6,9 +6,9 @@ import com.moodanalyse.service.MoodAnalyser;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class MoodAnalyserFactory {
+public class MoodAnalyserReflector {
 
-    public static MoodAnalyser createMoodAnalyserObject(String message) throws MoodAnalysisException {
+    public static MoodAnalyser createMoodAnalyserObject(String... message) throws MoodAnalysisException {
         try {
             Class<?> moodAnalyserClass = Class.forName("com.moodanalyse.service.MoodAnalyser");
             Constructor<?> moodConstructor = moodAnalyserClass.getConstructor(Object.class);
@@ -24,6 +24,18 @@ public class MoodAnalyserFactory {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_METHOD, "NO_SUCH_METHOD_ERROR");
         } catch (IllegalAccessException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_ACCESS, "NO_ACCESS");
+        }
+    }
+
+    public static Object invokeMethod(Object moodAnalyseObject, String message) throws MoodAnalysisException {
+        try {
+            return moodAnalyseObject.getClass().getMethod(message).invoke(moodAnalyseObject);
+        } catch (NoSuchMethodException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_METHOD, "NO_SUCH_METHOD_ERROR");
+        } catch (IllegalAccessException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_ACCESS, "NO_ACCESS");
+        } catch (InvocationTargetException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.METHOD_INVOCATION_ISSUE, "METHOD_INVOCATION_ISSUE");
         }
     }
 }

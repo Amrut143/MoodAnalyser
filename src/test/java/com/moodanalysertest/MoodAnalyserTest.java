@@ -2,7 +2,7 @@ package com.moodanalysertest;
 
 import com.moodanalyse.service.MoodAnalyser;
 import com.moodanalyse.exception.MoodAnalysisException;
-import com.moodanalyse.utility.MoodAnalyserFactory;
+import com.moodanalyse.utility.MoodAnalyserReflector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -75,12 +75,10 @@ public class MoodAnalyserTest {
     }
 
     @Test
-    public void givenMoodAnalyzerClass_IsEquals_ShouldReturnMoodAnalyzerObject() {
-        MoodAnalyser moodAnalyser = null;
+    public void givenMoodAnalyzerClass_ShouldReturnMoodAnalyzerObject() {
         try {
-            moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("I am in happy mood");
-            boolean result = moodAnalyser.equals(new MoodAnalyser("I m in Happy Mood."));
-            Assert.assertTrue(result);
+            MoodAnalyser moodAnalyser = MoodAnalyserReflector.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyser");
+            Assert.assertEquals(new MoodAnalyser(), moodAnalyser);
         } catch (MoodAnalysisException e) {
             e.printStackTrace();
         }
@@ -89,7 +87,7 @@ public class MoodAnalyserTest {
     @Test
     public void givenMoodAnalyserClass_WhenNotProper_ShouldReturn_CustomException_WithNoSuchClass() {
         try {
-            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyzer");
+            MoodAnalyser moodAnalyser = MoodAnalyserReflector.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyzer");
         } catch (MoodAnalysisException e) {
             Assert.assertEquals("NO_SUCH_CLASS_ERROR", e.getMessage());
         }
@@ -98,16 +96,28 @@ public class MoodAnalyserTest {
     @Test
     public void whenMood_ConstructorIsNotProper_ShouldReturn_CustomException_WithNoSuchMethod() {
         try {
-            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject();
+            MoodAnalyser moodAnalyser = MoodAnalyserReflector.createMoodAnalyserObject("mood");
         } catch (MoodAnalysisException e) {
             Assert.assertEquals("NO_SUCH_METHOD_ERROR", e.getMessage());
         }
     }
 
     @Test
+    public void givenMoodAnalyzerClass_IsEquals_ShouldReturnMoodAnalyzerObject() {
+        MoodAnalyser moodAnalyser;
+        try {
+            moodAnalyser = MoodAnalyserReflector.createMoodAnalyserObject("I am in happy mood");
+            boolean result = moodAnalyser.equals(new MoodAnalyser("I m in Happy Mood."));
+            Assert.assertTrue(result);
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void givenMoodAnalyserClass_WhenNotProper_ByParametrizedConstructor_ShouldReturn_CustomException_WithNoSuchClass() {
         try {
-            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("MoodAnalyse");
+            MoodAnalyser moodAnalyser = MoodAnalyserReflector.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyzer");
         } catch (MoodAnalysisException e) {
             Assert.assertEquals("NO_SUCH_CLASS_ERROR", e.getMessage());
         }
@@ -116,9 +126,31 @@ public class MoodAnalyserTest {
     @Test
     public void whenMood_ConstructorIsNotProper_ByParametrizedConstructor_ShouldReturn_CustomException_WithNoSuchMethod() {
         try {
-            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("MoodAnalyse");
+            MoodAnalyser moodAnalyser = MoodAnalyserReflector.createMoodAnalyserObject("MoodAnalyse");
         } catch (MoodAnalysisException e) {
             Assert.assertEquals("NO_SUCH_METHOD_ERROR", e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenHappyMessage_WithReflection_ShouldReturnHappy() {
+        try {
+            Object object = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
+            Object mood = MoodAnalyserReflector.invokeMethod(object, "analyseMood");
+            Assert.assertEquals("HAPPY",mood);
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenHappyMessage_WithReflection_InCorrectMethod_ShouldReturn_NoSuchMethodError() {
+        try {
+            Object object = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
+            Object mood = MoodAnalyserReflector.invokeMethod(object, "analyseMood");
+            Assert.assertEquals("HAPPY", mood);
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
         }
     }
 }
