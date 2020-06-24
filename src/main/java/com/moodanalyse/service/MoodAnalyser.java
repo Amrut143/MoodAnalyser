@@ -19,6 +19,11 @@ public class MoodAnalyser {
     public MoodAnalyser(String message) {
         this.message = message;
     }
+
+    public String analyseMood(String message) throws MoodAnalysisException{
+        this.message = message;
+        return analyseMood();
+    }
     /*function to analyse mood and handle exception*/
     public String analyseMood() throws MoodAnalysisException {
         try {
