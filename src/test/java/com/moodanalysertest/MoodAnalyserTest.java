@@ -2,6 +2,7 @@ package com.moodanalysertest;
 
 import com.moodanalyse.service.MoodAnalyser;
 import com.moodanalyse.exception.MoodAnalysisException;
+import com.moodanalyse.utility.MoodAnalyserFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ public class MoodAnalyserTest {
         }
         Assert.assertEquals("SAD", mood);
     }
+
     @Test
     public void givenMessage_WhenIn_AnyMood_ShouldReturnHappy() {
         MoodAnalyser moodAnalyser = new MoodAnalyser("I am in happy Mood");
@@ -29,6 +31,7 @@ public class MoodAnalyserTest {
         }
         Assert.assertEquals("HAPPY", mood);
     }
+
     @Test
     public void whenMood_IsNull_ShouldReturnHappy() {
         MoodAnalyser moodAnalyser = new MoodAnalyser(null);
@@ -38,33 +41,47 @@ public class MoodAnalyserTest {
         } catch (MoodAnalysisException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals("HAPPY",mood);
+        Assert.assertEquals("HAPPY", mood);
     }
+
     @Test
-    public void whenMood_IsNull_ShouldReturn_CustomException(){
+    public void whenMood_IsNull_ShouldReturn_CustomException() {
         MoodAnalyser moodAnalyser = new MoodAnalyser(null);
         try {
             String mood = moodAnalyser.analyseMood();
         } catch (MoodAnalysisException e) {
-            Assert.assertEquals("MoodAnalysisException",e.getMessage());
+            Assert.assertEquals("MoodAnalysisException", e.getMessage());
         }
     }
+
     @Test
-    public void whenMood_IsNull_ShouldReturn_CustomException_WithExceptionType(){
+    public void whenMood_IsNull_ShouldReturn_CustomException_WithExceptionType() {
         MoodAnalyser moodAnalyser = new MoodAnalyser(null);
         try {
             String mood = moodAnalyser.analyseMood();
-        } catch (MoodAnalysisException e ) {
-            Assert.assertEquals("ENTERED_NULL",e.getMessage());
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals("ENTERED_NULL", e.getMessage());
         }
     }
+
     @Test
-    public void whenMood_IsEmpty_ShouldReturn_CustomException_WithExceptionType(){
+    public void whenMood_IsEmpty_ShouldReturn_CustomException_WithExceptionType() {
         MoodAnalyser moodAnalyser = new MoodAnalyser("");
         try {
             String mood = moodAnalyser.analyseMood();
-        } catch (MoodAnalysisException e ) {
-            Assert.assertEquals("ENTERED_EMPTY",e.getMessage());
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals("ENTERED_EMPTY", e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenMoodAnalyzerClass_IsEquals_ShouldReturnMoodAnalyzerObject() {
+        MoodAnalyser moodAnalyser = null;
+        try {
+            moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyser");
+            Assert.assertEquals(new MoodAnalyser(),moodAnalyser);
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
         }
     }
 }
