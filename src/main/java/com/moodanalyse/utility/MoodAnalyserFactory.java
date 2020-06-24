@@ -12,7 +12,7 @@ public class MoodAnalyserFactory {
         try {
             Class<?> moodAnalyserClass = Class.forName("com.moodanalyse.service.MoodAnalyser");
             Constructor<?> moodConstructor = moodAnalyserClass.getConstructor(Object.class);
-            Object moodAnalyserObject = moodConstructor.newInstance();
+            Object moodAnalyserObject = moodConstructor.newInstance(message);
             return (MoodAnalyser) moodAnalyserObject;
         } catch (ClassNotFoundException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_CLASS, "NO_SUCH_CLASS_ERROR");
