@@ -84,4 +84,14 @@ public class MoodAnalyserTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void whenMood_ClassIsNotAvailable_ShouldReturn_CustomException_WithNoSuchClass() {
+        try {
+            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("com.moodanalyse.service.MoodAnalyzer");
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals("NO_SUCH_CLASS_ERROR", e.getMessage());
+        }
+    }
+
 }
