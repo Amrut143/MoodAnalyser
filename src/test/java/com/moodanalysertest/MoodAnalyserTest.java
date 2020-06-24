@@ -94,4 +94,12 @@ public class MoodAnalyserTest {
         }
     }
 
+    @Test
+    public void whenMood_ConstructorIsNotValid_ShouldReturn_CustomException_WithNoSuchMethod() {
+        try {
+            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject();
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals("NO_SUCH_METHOD_ERROR", e.getMessage());
+        }
+    }
 }
