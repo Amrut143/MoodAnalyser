@@ -103,4 +103,22 @@ public class MoodAnalyserTest {
             Assert.assertEquals("NO_SUCH_METHOD_ERROR", e.getMessage());
         }
     }
+
+    @Test
+    public void givenMoodAnalyserClass_WhenNotProper_ByParametrizedConstructor_ShouldReturn_CustomException_WithNoSuchClass() {
+        try {
+            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("MoodAnalyse");
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals("NO_SUCH_CLASS_ERROR", e.getMessage());
+        }
+    }
+
+    @Test
+    public void whenMood_ConstructorIsNotProper_ByParametrizedConstructor_ShouldReturn_CustomException_WithNoSuchMethod() {
+        try {
+            MoodAnalyser moodAnalyser = MoodAnalyserFactory.createMoodAnalyserObject("MoodAnalyse");
+        } catch (MoodAnalysisException e) {
+            Assert.assertEquals("NO_SUCH_METHOD_ERROR", e.getMessage());
+        }
+    }
 }
