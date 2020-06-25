@@ -7,8 +7,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class MoodAnalyserReflector {
-
-    public static MoodAnalyser createMoodAnalyserObject(String... message) throws MoodAnalysisException {
+    /**
+     *
+     * @param message
+     * @return
+     * @throws MoodAnalysisException
+     */
+    public static MoodAnalyser createMoodAnalyserObject(String message) throws MoodAnalysisException {
         try {
             Class<?> moodAnalyserClass = Class.forName("com.moodanalyse.service.MoodAnalyser");
             Constructor<?> moodConstructor = moodAnalyserClass.getConstructor(Object.class);
@@ -27,9 +32,16 @@ public class MoodAnalyserReflector {
         }
     }
 
-    public static Object invokeMethod(Object moodAnalyseObject, String message) throws MoodAnalysisException {
+    /**
+     *
+     * @param moodAnalyseObject
+     * @param methodName
+     * @return
+     * @throws MoodAnalysisException
+     */
+    public static Object invokeMethod(Object moodAnalyseObject, String methodName) throws MoodAnalysisException {
         try {
-            return moodAnalyseObject.getClass().getMethod(message).invoke(moodAnalyseObject);
+            return moodAnalyseObject.getClass().getMethod(methodName).invoke(moodAnalyseObject);
         } catch (NoSuchMethodException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_METHOD, "NO_SUCH_METHOD_ERROR");
         } catch (IllegalAccessException e) {
