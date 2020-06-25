@@ -6,6 +6,8 @@ import com.moodanalyse.utility.MoodAnalyserReflector;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+
 public class MoodAnalyserTest {
 
     @Test
@@ -136,12 +138,46 @@ public class MoodAnalyserTest {
     @Test
     public void givenHappyMessage_WithReflection_InCorrectMethod_ShouldReturn_NoSuchMethodError() {
         try {
-            Object object = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
-            Object mood = MoodAnalyserReflector.invokeMethod(object, "Mood");
+            Object analyserObject = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
+            Object mood = MoodAnalyserReflector.invokeMethod(analyserObject, "Mood");
 
         } catch (MoodAnalysisException e) {
             e.printStackTrace();
             Assert.assertEquals("NO_SUCH_METHOD_ERROR", e.getMessage());
+        }
+    }
+
+    @Test
+    public void setHappyMessage_WithReflector_ShouldReturnHappy() {
+        try {
+            Object analyserObject = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
+            MoodAnalyserReflector.setFieldValue(analyserObject, "message", "I am in happy mood");
+            Object mood = MoodAnalyserReflector.invokeMethod(analyserObject, "Mood");
+            Assert.assertEquals("HAPPY", mood);
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenImproperFieldToSet_ShouldReturnMoodAnalysisException()
+    {
+        try {
+            Object analyserObject = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
+            MoodAnalyserReflector.setFieldValue(analyserObject, "msg", "I am in happy mood");
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void settingNullFieldValueToReflector_ShouldGiveMoodAnalysisException()
+    {
+        try {
+            Object analyserObject = MoodAnalyserReflector.createMoodAnalyserObject("I m in Happy Mood");
+            MoodAnalyserReflector.setFieldValue(analyserObject, null, "I am in happy mood");
+        } catch (MoodAnalysisException e) {
+            e.printStackTrace();
         }
     }
 }

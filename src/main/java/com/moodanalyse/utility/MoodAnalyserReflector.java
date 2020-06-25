@@ -4,15 +4,17 @@ import com.moodanalyse.exception.MoodAnalysisException;
 import com.moodanalyse.service.MoodAnalyser;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 public class MoodAnalyserReflector {
+
     /**
      *
      * @param message
      * @return
      * @throws MoodAnalysisException
-     */
+     * */
     public static MoodAnalyser createMoodAnalyserObject(String message) throws MoodAnalysisException {
         try {
             Class<?> moodAnalyserClass = Class.forName("com.moodanalyse.service.MoodAnalyser");
@@ -50,5 +52,19 @@ public class MoodAnalyserReflector {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.METHOD_INVOCATION_ISSUE, "METHOD_INVOCATION_ISSUE");
         }
     }
+
+    public static void setFieldValue(Object analyserObject, String fieldName, String fieldValue) throws MoodAnalysisException {
+        try {
+            Field field = analyserObject.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(analyserObject, fieldValue);
+        } catch (NoSuchFieldException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_FIELD, "Define Proper Field Name");
+        } catch (IllegalAccessException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.FIELD_SETTING_ISSUE, "May be issue in data entry");
+        }
+    }
 }
+
+
 
