@@ -12,34 +12,35 @@ public class MoodAnalyser {
     /*Default constructor*/
     public MoodAnalyser() {
     }
+
     /**
-     *
      * @param message
      */
     public MoodAnalyser(String message) {
         this.message = message;
     }
+
+    public String analyseMood(String message) throws MoodAnalysisException {
+        this.message = message;
+        return analyseMood();
+    }
     /*function to analyse mood and handle exception*/
     public String analyseMood() throws MoodAnalysisException {
         try {
-            if (message.length()==0)
-                throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_EMPTY,"ENTERED_EMPTY");
-            if (message.contains("sad"))
+            if (message.length() == 0)
+                throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_EMPTY, "ENTERED_EMPTY");
+            else if (message.contains("sad"))
                 return "SAD";
-            return "HAPPY";
+            else
+                return "HAPPY";
         } catch (NullPointerException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_NULL, "ENTERED_NULL");
         }
     }
-    @Override
-    public boolean equals(Object another){
-        if (this.message.equals(((MoodAnalyser)another).message))
-            return true;
-        return false;
-    }
 
-    public boolean equalsMethod_ForObject(Object another){
-        if (this == another)
+    @Override
+    public boolean equals(Object another) {
+        if (this.message.equals(((MoodAnalyser) another).message))
             return true;
         return false;
     }
