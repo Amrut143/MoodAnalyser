@@ -6,7 +6,7 @@ package com.moodanalyse.exception;
  */
 public class MoodAnalysisException extends Exception {
     /*Use enum for exception type*/
-    public enum exceptionType { ENTERED_NULL, ENTERED_EMPTY, NO_SUCH_CLASS, OBJECT_CREATION_ISSUE, METHOD_INVOCATION_ISSUE, NO_SUCH_METHOD, NO_ACCESS };
+    public enum exceptionType { ENTERED_NULL, ENTERED_EMPTY, NO_SUCH_CLASS, METHOD_INVOCATION_ISSUE, NO_SUCH_METHOD, NO_ACCESS, NULL_VALUE, NO_SUCH_FIELD, FIELD_SETTING_ISSUE };
     exceptionType type;
     /**
      *

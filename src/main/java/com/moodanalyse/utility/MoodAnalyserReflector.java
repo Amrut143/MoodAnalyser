@@ -10,32 +10,26 @@ import java.lang.reflect.InvocationTargetException;
 public class MoodAnalyserReflector {
 
     /**
-     *
-     * @param message
      * @return
      * @throws MoodAnalysisException
-     * */
-    public static MoodAnalyser createMoodAnalyserObject(String message) throws MoodAnalysisException {
+     */
+    public static MoodAnalyser createMoodAnalyserObject(String... value) throws MoodAnalysisException {
         try {
-            Class<?> moodAnalyserClass = Class.forName("com.moodanalyse.service.MoodAnalyser");
+            Class<?> moodAnalyserClass = Class.forName(value[0]);
             Constructor<?> moodConstructor = moodAnalyserClass.getConstructor(Object.class);
-            Object moodAnalyserObject = moodConstructor.newInstance(message);
+            Object moodAnalyserObject = moodConstructor.newInstance(value[1]);
             return (MoodAnalyser) moodAnalyserObject;
         } catch (ClassNotFoundException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_CLASS, "NO_SUCH_CLASS_ERROR");
-        } catch (InstantiationException e) {
-            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.OBJECT_CREATION_ISSUE, "OBJECT_CREATION_ISSUE");
-        }  catch (InvocationTargetException e) {
-            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.METHOD_INVOCATION_ISSUE, "METHOD_INVOCATION_ISSUE");
         } catch (NoSuchMethodException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_METHOD, "NO_SUCH_METHOD_ERROR");
-        } catch (IllegalAccessException e) {
-            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_ACCESS, "NO_ACCESS");
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
-     *
      * @param moodAnalyseObject
      * @param methodName
      * @return
@@ -58,6 +52,8 @@ public class MoodAnalyserReflector {
             Field field = analyserObject.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(analyserObject, fieldValue);
+            if (fieldValue.length() == 0)
+                throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NULL_VALUE, "Field value is null");
         } catch (NoSuchFieldException e) {
             throw new MoodAnalysisException(MoodAnalysisException.exceptionType.NO_SUCH_FIELD, "Define Proper Field Name");
         } catch (IllegalAccessException e) {
